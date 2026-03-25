@@ -1,0 +1,10 @@
+pandas
+numpy
+scikit-learn
+textblob
+mysql-connector-python
+streamlit
+fastapi
+uvicorn
+plotly
+requests
