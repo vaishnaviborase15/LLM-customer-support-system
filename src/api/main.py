@@ -18,3 +18,8 @@ app.include_router(router)
 @app.get("/")
 def home():
     return {"message": "API is running successfully"}
+
+
+@app.get("/health")
+def health():
+    return {"status": "running"}
