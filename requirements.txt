@@ -1,13 +1,5 @@
-fastapi
-uvicorn
+streamlit==1.32.0
 pandas
-numpy
-scikit-learn
-psycopg2-binary
-sqlalchemy
-streamlit
-plotly
 requests
-textblob
-python-dotenv
-python-multipart
+altair==4.2.2
+pillow==10.2.0
