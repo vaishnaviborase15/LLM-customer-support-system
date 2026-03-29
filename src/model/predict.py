@@ -31,7 +31,7 @@ def predict_all(text):
 
 from src.llm.llm_engine import get_llm_response
 
-def parse_llm_output(result):
+"""def parse_llm_output(result):
     sentiment = "Neutral"
     priority = "Medium"
     response = result
@@ -50,8 +50,7 @@ def parse_llm_output(result):
     except:
         pass
 
-    return sentiment, priority, response
-
+    return sentiment, priority, response"""
 
 def predict_all(text):
     sentiment, priority, response = get_llm_response(text)

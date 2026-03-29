@@ -43,7 +43,12 @@ with st.form("ticket_form"):
         }
 
         try:
-            response = requests.post(f"{API_URL}/new-ticket", data=data)
+            with st.spinner("⏳ Processing your request..."):
+                response = requests.post(
+                    f"{API_URL}/new-ticket",
+                    data=data,
+                    timeout=30
+                )
 
             if response.status_code == 200:
                 result = response.json()
