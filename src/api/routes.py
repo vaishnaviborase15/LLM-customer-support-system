@@ -1,9 +1,9 @@
 from fastapi import APIRouter, Depends, Form
 from sqlalchemy.orm import Session
 from sqlalchemy import text
-from src.database.connection import get_db
+from database.connection import get_db
 import pandas as pd
-from src.model.predict import predict_all   # USE MODEL
+from model.predict import predict_all
 
 router = APIRouter()
 
