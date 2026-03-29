@@ -1,5 +1,5 @@
 import pandas as pd
-from database.connection import engine
+from src.database.connection import engine
 
 def insert_data(df):
     try:

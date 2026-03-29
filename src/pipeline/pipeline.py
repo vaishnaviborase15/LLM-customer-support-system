@@ -1,15 +1,14 @@
 import numpy as np
 import pandas as pd
-from data_processing.load_data import load_data
-from data_processing.clean_data import clean_data
-from data_processing.preprocess import preprocess
 
-from ai.sentiment import apply_sentiment
-from ai.response_generator import apply_responses
+from src.data_processing.load_data import load_data
+from src.database.db_operations import insert_data
 
-from database.db_operations import insert_data
-
-from config import CLEAN_DATA_PATH, FINAL_DATA_PATH
+from src.data_processing.clean_data import clean_data
+from src.data_processing.preprocess import preprocess
+from src.ai.sentiment import apply_sentiment
+from src.ai.response_generator import apply_responses
+from src.config import CLEAN_DATA_PATH, FINAL_DATA_PATH
 
 
 def run_pipeline():

@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import text
 from src.database.connection import get_db
 import pandas as pd
-from model.predict import predict_all
+from src.model.predict import predict_all
 
 router = APIRouter()
 
