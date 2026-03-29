@@ -47,7 +47,7 @@ with st.form("ticket_form"):
                 response = requests.post(
                     f"{API_URL}/new-ticket",
                     data=data,
-                    timeout=30
+                    timeout=120
                 )
 
             if response.status_code == 200:

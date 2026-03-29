@@ -1,6 +1,9 @@
 import os
 from langchain_community.vectorstores import FAISS
 from langchain_community.embeddings import HuggingFaceEmbeddings
+import time
+
+START_TIME = time.time()
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 
