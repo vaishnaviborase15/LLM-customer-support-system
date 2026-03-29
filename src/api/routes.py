@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends, Form
 from sqlalchemy.orm import Session
 from sqlalchemy import text
-from database.connection import get_db
+from src.database.connection import get_db
 import pandas as pd
 from model.predict import predict_all
 
