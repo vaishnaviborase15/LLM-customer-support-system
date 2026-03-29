@@ -1,3 +1,4 @@
+"""
 import pickle
 import os
 
@@ -25,4 +26,33 @@ def predict_all(text):
     else:
         priority = "Low"
 
+    return sentiment, priority, response   """
+
+
+from src.llm.llm_engine import get_llm_response
+
+def parse_llm_output(result):
+    sentiment = "Neutral"
+    priority = "Medium"
+    response = result
+
+    try:
+        lines = result.split("\n")
+
+        for line in lines:
+            if "sentiment" in line.lower():
+                sentiment = line.split(":")[-1].strip()
+            elif "priority" in line.lower():
+                priority = line.split(":")[-1].strip()
+            elif "response" in line.lower():
+                response = line.split(":", 1)[-1].strip()
+
+    except:
+        pass
+
+    return sentiment, priority, response
+
+
+def predict_all(text):
+    sentiment, priority, response = get_llm_response(text)
     return sentiment, priority, response

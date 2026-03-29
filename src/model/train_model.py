@@ -8,9 +8,7 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.pipeline import Pipeline
 from sklearn.multiclass import OneVsRestClassifier
 
-# =========================
 # LOAD DATA
-# =========================
 df = pd.read_csv("data/processed/final_ai_dataset.csv")
 
 # Use cleaned text
@@ -22,9 +20,7 @@ y_response = df["suggested_response"]
 
 df = df.dropna(subset=["clean_text", "sentiment", "suggested_response"])
 
-# =========================
 # TRAIN SENTIMENT MODEL
-# =========================
 sentiment_model = Pipeline([
     ("tfidf", TfidfVectorizer(max_features=5000)),
     ("clf", LogisticRegression())
@@ -32,9 +28,8 @@ sentiment_model = Pipeline([
 
 sentiment_model.fit(X, y_sentiment)
 
-# =========================
+
 # TRAIN RESPONSE MODEL
-# =========================
 response_model = Pipeline([
     ("tfidf", TfidfVectorizer(max_features=5000)),
     ("clf", LogisticRegression())
@@ -42,10 +37,8 @@ response_model = Pipeline([
 
 response_model.fit(X, y_response)
 
-# =========================
-# SAVE MODELS
-# =========================
 
+# SAVE MODELS
 os.makedirs("models", exist_ok=True)
 
 with open("models/sentiment_model.pkl", "wb") as f:
@@ -54,4 +47,4 @@ with open("models/sentiment_model.pkl", "wb") as f:
 with open("models/response_model.pkl", "wb") as f:
     pickle.dump(response_model, f)
 
-print("✅ Models trained and saved!")
+print("Models trained and saved!")

@@ -1,3 +1,5 @@
+import numpy as np
+import pandas as pd
 from src.data_processing.load_data import load_data
 from src.data_processing.clean_data import clean_data
 from src.data_processing.preprocess import preprocess
