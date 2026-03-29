@@ -2,8 +2,9 @@ import streamlit as st
 import requests
 import pandas as pd
 import plotly.express as px
+import time
 
-API_URL = "https://ai-based-customer-support-backend.onrender.com"
+API_URL = "https://llm-customer-support-system.onrender.com"
 
 # =========================
 # PAGE CONFIG
