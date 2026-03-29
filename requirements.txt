@@ -15,3 +15,7 @@ openai
 langchain
 faiss-cpu
 tiktoken
+langchain-community
+langchain-core
+faiss-cpu
+sentence-transformers
