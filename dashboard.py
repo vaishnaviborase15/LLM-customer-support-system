@@ -4,7 +4,8 @@ import pandas as pd
 import plotly.express as px
 import time
 
-API_URL = "https://llm-customer-support-system.onrender.com"
+#API_URL = "https://llm-customer-support-system.onrender.com"
+API_URL = "http://127.0.0.1:8000"
 
 # =========================
 # PAGE CONFIG
@@ -53,7 +54,7 @@ with st.form("ticket_form"):
             if response.status_code == 200:
                 result = response.json()
 
-                # 🔥 HANDLE ERROR SAFELY
+                # HANDLE ERROR SAFELY
                 if "error" in result:
                     st.error(result["error"])
                 else:

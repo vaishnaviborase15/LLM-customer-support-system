@@ -17,10 +17,10 @@ def create_ticket(
     db: Session = Depends(get_db)
 ):
     try:
-        # 🔥 FAST RESPONSE FIRST
+        # FAST RESPONSE FIRST
         sentiment, priority, response = predict_all(issue)
 
-        # 🔥 QUICK RETURN (before heavy ops)
+        # QUICK RETURN (before heavy ops)
         result = {
             "message": "Ticket created successfully",
             "sentiment": sentiment,
@@ -28,7 +28,7 @@ def create_ticket(
             "response": response
         }
 
-        # 🔥 DB INSERT AFTER (non-blocking style)
+        # DB INSERT AFTER (non-blocking style)
         try:
             query = text("""INSERT INTO tickets (
                 customer_name, product_purchased, ticket_description,
@@ -64,7 +64,7 @@ def create_ticket(
 
 
 @router.post("/suggest-response")
-def suggest_response(text: str = Form(...)):   # ✅ MUST BE Form(...)
+def suggest_response(text: str = Form(...)): 
     sentiment, priority, response = predict_all(text)
 
     return {
