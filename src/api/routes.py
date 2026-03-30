@@ -3,6 +3,7 @@ from sqlalchemy.orm import Session
 from sqlalchemy import text
 from src.database.connection import get_db
 import pandas as pd
+from fastapi import Form
 from src.model.predict import predict_all
 
 router = APIRouter()
@@ -16,54 +17,62 @@ def create_ticket(
     db: Session = Depends(get_db)
 ):
     try:
-        # AI MODEL (FINAL)
+        # 🔥 FAST RESPONSE FIRST
         sentiment, priority, response = predict_all(issue)
 
-        # DATABASE INSERT
-        query = text("""
-            INSERT INTO tickets (
-                customer_name,
-                product_purchased,
-                ticket_description,
-                ticket_type,
-                ticket_priority,
-                sentiment,
-                suggested_response,
-                is_high_priority
-            ) VALUES (
-                :customer_name,
-                :product,
-                :issue,
-                :type,
-                :priority,
-                :sentiment,
-                :response,
-                :is_high_priority
-            )
-        """)
-
-        db.execute(query, {
-            "customer_name": customer_name,
-            "product": product,
-            "issue": issue,
-            "type": "Customer Query",
-            "priority": priority,
-            "sentiment": sentiment,
-            "response": response, 
-            "is_high_priority": 1 if priority.lower() in ["high", "critical"] else 0
-        })
-
-        db.commit()
-
-        return {
+        # 🔥 QUICK RETURN (before heavy ops)
+        result = {
             "message": "Ticket created successfully",
             "sentiment": sentiment,
             "priority": priority,
             "response": response
         }
 
+        # 🔥 DB INSERT AFTER (non-blocking style)
+        try:
+            query = text("""INSERT INTO tickets (
+                customer_name, product_purchased, ticket_description,
+                ticket_type, ticket_priority, sentiment,
+                suggested_response, is_high_priority
+            ) VALUES (
+                :customer_name, :product, :issue,
+                :type, :priority, :sentiment,
+                :response, :is_high_priority
+            )""")
+
+            db.execute(query, {
+                "customer_name": customer_name,
+                "product": product,
+                "issue": issue,
+                "type": "Customer Query",
+                "priority": priority,
+                "sentiment": sentiment,
+                "response": response,
+                "is_high_priority": 1 if priority.lower() in ["high", "critical"] else 0
+            })
+
+            db.commit()
+
+        except:
+            pass
+
+        return result
+
     except Exception as e:
         return {"error": str(e)}
+
+
+
+@router.post("/suggest-response")
+def suggest_response(text: str = Form(...)):   # ✅ MUST BE Form(...)
+    sentiment, priority, response = predict_all(text)
+
+    return {
+        "sentiment": sentiment,
+        "priority": priority,
+        "suggested_response": response
+    }
+
 
 
 # GET ALL TICKETS

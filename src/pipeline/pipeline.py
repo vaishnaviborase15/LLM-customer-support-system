@@ -8,7 +8,7 @@ from src.data_processing.clean_data import clean_data
 from src.data_processing.preprocess import preprocess
 from src.ai.sentiment import apply_sentiment
 from src.ai.response_generator import apply_responses
-from src.config import CLEAN_DATA_PATH, FINAL_DATA_PATH
+from config import CLEAN_DATA_PATH, FINAL_DATA_PATH
 
 
 def run_pipeline():

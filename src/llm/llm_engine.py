@@ -1,49 +1,49 @@
 import os
-from langchain_community.vectorstores import FAISS
-from langchain_community.embeddings import HuggingFaceEmbeddings
-import time
+from groq import Groq
+from dotenv import load_dotenv
 
-START_TIME = time.time()
+load_dotenv()
 
-BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
+client = Groq(api_key=os.getenv("GROQ_API_KEY"))
 
-# LOAD ONCE (GLOBAL)
-embeddings = HuggingFaceEmbeddings(model_name="all-MiniLM-L6-v2")
-
-db_path = os.path.join(BASE_DIR, "vector_db")
-
-try:
-    db = FAISS.load_local(
-        db_path,
-        embeddings,
-        allow_dangerous_deserialization=True
-    )
-    print("Vector DB loaded successfully")
-except Exception as e:
-    print("Error loading vector DB:", e)
-    db = None
-
-
-def get_llm_response(user_query):
+def get_llm_response(user_query: str):
     try:
-        if db is None:
-            return "Neutral", "Medium", "Support system initializing..."
+        prompt = f"""
+You are a professional AI customer support assistant.
 
-        docs = db.similarity_search(user_query, k=1)
+Your tasks:
+- Detect sentiment (Positive / Neutral / Negative)
+- Assign priority (Low / Medium / High / Critical)
+- Generate a polite, helpful, human-like response
 
-        if docs:
-            response = docs[0].page_content
-        else:
-            response = "Our support team will assist you shortly."
+Guidelines:
+- If user is angry → Apologize
+- If issue is serious → Mark High/Critical
+- Always give clear next steps
 
-        # FAST RULE-BASED (no extra delay)
-        sentiment = "Neutral"
-        priority = "Medium"
+User Query:
+{user_query}
 
-        if any(word in user_query.lower() for word in ["refund", "not working", "issue", "error", "failed"]):
-            priority = "High"
+Output STRICTLY in this format:
+Sentiment: <value>
+Priority: <value>
+Response: <your response>
+"""
 
-        return sentiment, priority, response
+        completion = client.chat.completions.create(
+            model="llama3-8b-8192",  
+            messages=[
+                {"role": "system", "content": "You are a helpful customer support assistant."},
+                {"role": "user", "content": prompt}
+            ],
+            temperature=0.3,
+            max_tokens=120
+        )
+
+        result = completion.choices[0].message.content
+
+        return parse_llm_output(result)
 
     except Exception as e:
-        return "Neutral", "Medium", "AI service temporarily unavailable"
+        print("Groq Error:", e)
+        return "Neutral", "Medium", "Our support team will assist you shortly."
