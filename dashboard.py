@@ -4,12 +4,9 @@ import pandas as pd
 import plotly.express as px
 import time
 
-#API_URL = "https://llm-customer-support-system.onrender.com"
-API_URL = "http://127.0.0.1:8000"
+API_URL = "https://llm-customer-support-system.onrender.com"
 
-# =========================
 # PAGE CONFIG
-# =========================
 st.set_page_config(
     page_title="Customer Support Dashboard",
     page_icon="📊",
@@ -20,9 +17,7 @@ st.title("📊 Customer Support AI Dashboard")
 st.markdown("### 🚀 Smart Ticketing & Analytics System")
 st.markdown("---")
 
-# =========================
 # CUSTOMER QUERY INPUT
-# =========================
 st.markdown("## 🧾 Raise a Support Ticket")
 
 with st.form("ticket_form"):

@@ -1,6 +1,0 @@
-streamlit
-pandas
-requests
-altair==4.2.2
-pillow==10.2.0
-plotly
